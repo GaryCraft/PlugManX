@@ -16,6 +16,7 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 * Dump plugin list with versions to a file.
 * Check if a plugin is up-to-date with dev.bukkit.org
 * Permissions Support - All commands default to OP.
+* Auto-Management - Automatically Download, Install, Update plugins using a Manifest file.
 
 ## Commands
 | Command | Description |
@@ -61,9 +62,10 @@ PlugMan is a simple, easy to use plugin that lets server admins manage plugins f
 | plugman.check.all | OP | Allow use of the check command. |
 
 ## Configuration
-| File | URL |
-| ----- | ------- |
-| config.yml | https://github.com/TheBlackEntity/PlugMan/blob/master/src/main/resources/config.yml |
+| File         | URL                                                                                   |
+|--------------|---------------------------------------------------------------------------------------|
+| config.yml   | https://github.com/TheBlackEntity/PlugMan/blob/master/src/main/resources/config.yml   |
+| manifest.yml | https://github.com/TheBlackEntity/PlugMan/blob/master/src/main/resources/manifest.yml |
 
 ## Developers
 How to include PlugMan with Maven:

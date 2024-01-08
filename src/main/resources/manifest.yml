@@ -1,0 +1,21 @@
+###
+# This is a Custom Manifest for automatic plugin management.
+# It should be manually edited, and PlugMan will do its best to follow it.
+# The format is as follows:
+#   - name: <plugin-name>
+#     type: <type> "spigot" or "direct" // we may support GitHub later
+#     id-or-url: <id-or-url> (id for spigot plugins, url for direct plugins, or GitHub repo)
+#     target-version: <version> (only used for spigot or github plugins, ignored for direct, defaults to latest)
+# The plugin will attempt to download and install the plugin from the URL.
+# If the plugin is already installed, it will be updated to the target version.
+# Plugins that are in the ignored-plugins list in config.yml will be ignored.
+#
+# This file should be used carefully, as it can install plugins that are not
+# yet verified, or install incompatible versions. (only use this manifest with plugins you deeply trust)
+# PlugMan will only download plugins that will be initialized on the next server start.
+###
+plugins:
+  - name: PlugManX
+    type: spigot
+    id-or-url: 88135
+    target-version: 2.3.7
