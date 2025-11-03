@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.rylinaux</groupId>
         <artifactId>PlugManX</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -72,7 +72,7 @@
             <plugin>
                 <groupId>ca.bkaw</groupId>
                 <artifactId>paper-nms-maven-plugin</artifactId>
-                <version>1.4.9</version>
+                <version>1.4.10</version>
                 <executions>
                     <execution>
                         <phase>process-classes</phase>
@@ -97,14 +97,14 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.7-R0.1-SNAPSHOT</version>
+            <version>1.21.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bkaw</groupId>
             <artifactId>paper-nms</artifactId>
-            <version>1.21.7-SNAPSHOT</version>
+            <version>1.21.8-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
