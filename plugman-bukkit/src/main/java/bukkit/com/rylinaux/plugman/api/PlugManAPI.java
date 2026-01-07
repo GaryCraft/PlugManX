@@ -27,8 +27,8 @@ package bukkit.com.rylinaux.plugman.api;
  */
 
 import bukkit.com.rylinaux.plugman.PlugManBukkit;
-import core.com.rylinaux.plugman.config.PlugManConfigurationManager;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -69,13 +69,22 @@ public class PlugManAPI {
      * @return = Whether the method was executed successfully
      */
     public static boolean iDoNotWantToBeUnOrReloaded(String plugin) {
+        return iDoNotWantToBeUnOrReloaded(Bukkit.getPluginManager().getPlugin(plugin));
+    }
+
+    public static boolean iDoNotWantToBeUnOrReloaded(Plugin plugin) {
         if (PlugManBukkit.getInstance() == null) return false;
+        if (plugin == null) return false;
 
-        var config = PlugManBukkit.getInstance().<PlugManConfigurationManager>get(PlugManConfigurationManager.class);
+        var gentleUnload = new DummyUnload();
 
-        if (config.getIgnoredPlugins() == null) return false;
+        return pleaseAddMeToGentleUnload(plugin, gentleUnload);
+    }
 
-        config.getIgnoredPlugins().add(plugin);
-        return true;
+    private class DummyUnload implements GentleUnload {
+        @Override
+        public boolean askingForGentleUnload() {
+            return false;
+        }
     }
 }

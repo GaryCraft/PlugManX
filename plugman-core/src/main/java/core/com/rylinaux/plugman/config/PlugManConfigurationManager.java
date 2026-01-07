@@ -3,6 +3,7 @@ package core.com.rylinaux.plugman.config;
 import core.com.rylinaux.plugman.config.model.PlugManConfig;
 import core.com.rylinaux.plugman.config.model.ResourceMappingsConfig;
 import core.com.rylinaux.plugman.logging.PluginLogger;
+import core.com.rylinaux.plugman.util.ImmutableWarnList;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -28,13 +29,11 @@ public class PlugManConfigurationManager {
      */
     @Getter
     private List<String> ignoredPlugins = null;
-
     /**
      * Jackson-based configuration object
      */
     @Getter
     private PlugManConfig plugManConfig;
-
     @Getter
     private ResourceMappingsConfig resourceMappingsConfig;
 
@@ -163,9 +162,13 @@ public class PlugManConfigurationManager {
      * Load ignored plugins from configuration
      */
     private void loadIgnoredPlugins() {
-        ignoredPlugins = new java.util.ArrayList<>(plugManConfig.getIgnoredPlugins());
-        ignoredPlugins.add("PlugMan");
-        ignoredPlugins.add("PlugManX");
+        var ignoredPluginsTemp = new java.util.ArrayList<>(plugManConfig.getIgnoredPlugins());
+        ignoredPluginsTemp.add("PlugMan");
+        ignoredPluginsTemp.add("PlugManX");
+        ignoredPluginsTemp.add("PlugManVelocity");
+        ignoredPluginsTemp.add("PlugManBungee");
+
+        ignoredPlugins = new ImmutableWarnList<>(ignoredPluginsTemp);
     }
 
 

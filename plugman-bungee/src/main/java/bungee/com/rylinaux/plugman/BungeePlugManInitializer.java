@@ -65,7 +65,6 @@ public class BungeePlugManInitializer extends BasePlugManInitializer {
     protected PlugManConfigurationManager createConfigurationManager() {
         var configurationManager = BungeePlugManConfigurationManager.of(plugin);
         configurationManager.initializeConfiguration();
-        configurationManager.getIgnoredPlugins().add("PlugManBungee");
         return configurationManager;
     }
 
