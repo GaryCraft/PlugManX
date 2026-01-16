@@ -255,7 +255,7 @@ public class BukkitPluginManager extends BasePluginManager {
             var parts = s.getKey().split(":");
             // parts length equals 1 means that the key is the command
             return parts.length == 1? parts[0] : parts[1];
-        }).collect(Collectors.joining(", "));
+        }).distinct().collect(Collectors.joining(", "));
 
 
         if (parsedCommands.isEmpty()) return "usage.no-commands";
@@ -263,7 +263,8 @@ public class BukkitPluginManager extends BasePluginManager {
         return parsedCommands;
     }
 
-    private List<Map.Entry<String, Command>> getCommandsFromPlugin(Plugin plugin) {
+    @ApiStatus.Internal
+    public List<Map.Entry<String, Command>> getCommandsFromPlugin(Plugin plugin) {
         var knownCommands = getKnownCommands();
 
         return knownCommands.entrySet().stream()
@@ -271,6 +272,9 @@ public class BukkitPluginManager extends BasePluginManager {
                     var name = entry.getKey();
                     if (name.contains(":")) return name.split(":")[0].equalsIgnoreCase(plugin.getName());
                     else {
+                        var pluginCommand = knownCommands.get(plugin.getName().toLowerCase() + ":" + name.toLowerCase());
+                        if (pluginCommand != null && pluginCommand.getHandle() == entry.getValue().getHandle()) return true;
+
                         var classLoader = entry.getValue().getHandle().getClass().getClassLoader();
                         return classLoader.getClass() == pluginClassLoaderClass && getPluginFromClassLoader.apply(classLoader) == plugin.getHandle();
                     }
@@ -351,7 +355,7 @@ public class BukkitPluginManager extends BasePluginManager {
         var pluginFile = findPluginFile(name);
         if (pluginFile == null) return new PluginResult(false, "load.cannot-find");
 
-        var target = loadAndEnablePlugin(pluginFile);
+        var target = loadAndEnablePlugin(pluginFile, false);
         if (target == null) return new PluginResult(false, "load.invalid-plugin");
 
         scheduleCommandLoading();
@@ -361,12 +365,12 @@ public class BukkitPluginManager extends BasePluginManager {
     }
 
     @ApiStatus.Internal
-    public Plugin loadAndEnablePlugin(File pluginFile) {
+    public Plugin loadAndEnablePlugin(File pluginFile, boolean skipLoad) {
         try {
             var target = Bukkit.getPluginManager().loadPlugin(pluginFile);
             if (target == null) return null;
 
-            target.onLoad();
+            if (!skipLoad) target.onLoad();
             Bukkit.getPluginManager().enablePlugin(target);
             return new BukkitPlugin(target);
         } catch (InvalidDescriptionException | InvalidPluginException exception) {
