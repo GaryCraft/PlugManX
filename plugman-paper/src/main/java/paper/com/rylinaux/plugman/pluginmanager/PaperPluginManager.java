@@ -155,7 +155,7 @@ public class PaperPluginManager extends BasePluginManager {
 
         var target = loadPluginWithPaper(pluginFile);
         if (target == null) {
-            target = loadAndEnablePlugin(pluginFile);
+            target = loadAndEnablePlugin(pluginFile, true);
             if (target == null) return new PluginResult(false, "load.invalid-plugin");
         }
 

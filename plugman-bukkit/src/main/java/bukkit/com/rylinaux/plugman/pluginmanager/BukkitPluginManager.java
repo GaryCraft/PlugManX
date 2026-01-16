@@ -355,7 +355,7 @@ public class BukkitPluginManager extends BasePluginManager {
         var pluginFile = findPluginFile(name);
         if (pluginFile == null) return new PluginResult(false, "load.cannot-find");
 
-        var target = loadAndEnablePlugin(pluginFile);
+        var target = loadAndEnablePlugin(pluginFile, false);
         if (target == null) return new PluginResult(false, "load.invalid-plugin");
 
         scheduleCommandLoading();
@@ -365,12 +365,12 @@ public class BukkitPluginManager extends BasePluginManager {
     }
 
     @ApiStatus.Internal
-    public Plugin loadAndEnablePlugin(File pluginFile) {
+    public Plugin loadAndEnablePlugin(File pluginFile, boolean skipLoad) {
         try {
             var target = Bukkit.getPluginManager().loadPlugin(pluginFile);
             if (target == null) return null;
 
-            target.onLoad();
+            if (!skipLoad) target.onLoad();
             Bukkit.getPluginManager().enablePlugin(target);
             return new BukkitPlugin(target);
         } catch (InvalidDescriptionException | InvalidPluginException exception) {
